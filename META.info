@@ -1,0 +1,7 @@
+{
+  "name"        : "WWW::App::Easy",
+  "version"     : "*",
+  "description" : "Web Apps in Perl 6, even easier!",
+  "depends"     : [ "WWW::App", "Template6", "DBIish", "DateTime::Utils", "JSON::Tiny" ],
+  "source-url"    : "git://github.com/supernovus/perl6-www-app-easy.git"
+}

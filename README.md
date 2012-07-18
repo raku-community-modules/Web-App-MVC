@@ -77,13 +77,16 @@ and displaying one or more Views (which by default are using the Template6 templ
     use My::Models::Example;
     class My::Controller is WWW::App::Easy::Controller {
       method handle ($context) {
-        $context.set-status: 200;
         $context.content-type: 'text/html';
         my $id = $context.get('id', :default(1));
+
         my $model = self.get-model(My::Models::Example);
         my $user = $model.getUserById($id);
         my $name = $user.name;
-        $context.send: self.parse-view('default', :$name);
+
+        my $jobusers = $model.get.with(:job($user.job)).not(:id($user.id)).rows;
+
+        $context.send: self.view('default', :$name, :$jobusers);
       }
     }
 ```
@@ -92,9 +95,17 @@ and displaying one or more Views (which by default are using the Template6 templ
 
 ```perl
     use WWW::App::Easy::Model::DB;
+    class My::Models::Example::User is WWW::App::Easy::Model::DB::Row {
+      has $.id;
+      has $.name is rw;
+      has $.age  is rw;
+      has $.job  is rw;
+      has @!fields = 'id' => {:primary, :auto}, 'name', 'age', 'job' => {:column<position>};
+    }
     class My::Models::Example is WWW::App::Easy::Model::DB {
+      has $!rowclass = My::Models::Example::User;
       method getUserById ($id) {
-        self.getRowByFields(:id($id));
+        self.get.with(:id($id)).row;
       }
     }
 ```
@@ -107,7 +118,19 @@ and displaying one or more Views (which by default are using the Template6 templ
         <title>Hello [% name %]</title>
       </head>
       <body>
-        <h1>Hello [% name %]</h1>
+        <h1>Other users with the same job as you</h1>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+          </tr>
+          [% for jobusers as user %]
+          <tr>
+            <th>[% user.name %]</th>
+            <th>[% user.age %]</th>
+          </tr>
+          [% end %]
+        </table>
       </body>
     </html>
 ```
@@ -119,3 +142,4 @@ Timothy Totten. Catch me on #perl6 as 'supernovus'.
 ## License
 
 Artistic License 2.0
+

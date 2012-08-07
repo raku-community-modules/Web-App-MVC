@@ -1,12 +1,5 @@
 # WWW::App::Easy
 
-## NOTE
-
-This is in the planning stages at the moment. I wrote WWW::App to bring simple web application
-development to Perl 6. This is the next step, providing a more complete framework.
-
-Stay tuned for actual code.
-
 ## Introduction
 
 A set of extensions to [WWW::App](https://github.com/supernovus/www-app/) providing a MVC-style 
@@ -18,12 +11,10 @@ and displaying one or more Views (which by default are using the Template6 templ
 ## Example Application Script
 
 ```perl
-    use SCGI;
     use WWW::App::Easy;
     use My::Controller;
 
-    my $scgi = SCGI.new(:port(8118), :PSGI);
-    my $app  = WWW::App::Easy.new($scgi, :config<./conf/app.json>);
+    my $app  = WWW::App::Easy.new(:config<./conf/app.json>);
 
     $app.add(:handler(My::Controller));
 
@@ -36,6 +27,10 @@ and displaying one or more Views (which by default are using the Template6 templ
 
 ```json
     {
+      "connector"   : {
+        "type"      : "SCGI",
+        "port"      : 8118
+      },
       "templatedir" : "./templates",
       "dbconf"      : "./conf/db.json",
       "modelconf"   : "./conf/models.json"
@@ -86,7 +81,7 @@ and displaying one or more Views (which by default are using the Template6 templ
 
         my $jobusers = $model.get.with(:job($user.job)).not(:id($user.id)).rows;
 
-        $context.send: self.view('default', :$name, :$jobusers);
+        $context.send: self.render('default', :$name, :$jobusers);
       }
     }
 ```
@@ -134,6 +129,10 @@ and displaying one or more Views (which by default are using the Template6 templ
       </body>
     </html>
 ```
+
+## TODO
+
+All of the Model related code, including the DB base class.
 
 ## Author
 

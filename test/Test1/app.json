@@ -1,0 +1,7 @@
+{
+  "connector" : {
+    "type" : "SCGI",
+    "port" : 8118
+  },
+  "templatedir" : "./test/Test1/views"
+}

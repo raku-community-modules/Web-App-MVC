@@ -7,7 +7,8 @@ use JSON::Tiny;
 has %.config;    ## Our main configuration.
 has %!configs;   ## On-demand loaded configurations.
 has %!sessions;  ## A list of in-memory client sessions.
-has %!handlers;  ## Pre-loaded handlers. Woot.
+has %!handlers;  ## Cached handler/controller objects.
+has %!models;    ## Cached model objects.
 
 ## Overrides the new() from WWW::App, with support for a :config option.
 method new (*%opts) {
@@ -35,9 +36,14 @@ method new (*%opts) {
         require SCGI;
         $engine = ::('SCGI').new(|%copts);
       }
-      when 'http::easy' {
+      when /easy/ {
         require HTTP::Easy::PSGI;
         $engine = ::('HTTP::Easy::PSGI').new(|%copts);
+      }
+      when /simple/ {
+        require HTTP::Server::Simple::PSGI;
+        my $port = %copts<port> // 8080;
+        $engine = ::('HTTP::Server::Simple::PSGI').new($port);
       }
       default {
         die "unknown or unsupported connector type";
@@ -83,7 +89,7 @@ method get ($name) {
   return Nil;
 }
 
-## Overriding the process-handler method to handle type objects.
+## Overriding the process-handler method to handle type objects and strings.
 method process-handler ($handler, $context) {
   if ((! $handler.defined) && $handler ~~ Any) {
     my $controller;
@@ -97,8 +103,63 @@ method process-handler ($handler, $context) {
     }
     return $controller.handle($context);
   }
-  else {
-    nextsame; ## If we're not a type object, go back to the orignal process-handler().
+  elsif $handler ~~ Str {
+    my $controller;
+    if %!handlers.exists{$handler} {
+      $controller = %!handlers{$handler};
+    }
+    else {
+      require $handler;
+      $controller = ::($handler).new(:app(self));
+      %!handlers{$handler} = $controller;
+    }
+    return $controller.handle($context);
   }
+  else {
+    nextsame; ## If we're not a type object, or Str, go back to the orignal process-handler().
+  }
+}
+
+## Get a model object.
+method get-model ($model) {
+  my $object;
+  my $confs = self.get-config('models');
+  my $conf = {};
+  if $model.defined {
+    if $model ~~ Str {
+      ## If you pass a string, we consider it to be the class name.
+      if (%!models.exists($model)) {
+        return %!models{$model};
+      }
+      if $confs.exists($model) {
+        $conf = $confs{$model};
+      }
+      require $model;
+      $conf<app> = self;
+      $object = ::($model).new(|$conf);
+      %!models{$model} = $object;
+    }
+    else {
+      ## No idea what you passed, returning it as is.
+      return $model;
+    }
+  }
+  elsif $model ~~ Any {
+    ## We're assuming a type object.
+    my $typename = $model.WHAT.perl;
+    if %!models.exists($typename) {
+      return %!models{$typename};
+    }
+    if $confs.exists($typename) {
+      $conf = $confs{$typename};
+    }
+    $conf<app> = self;
+    $object = $model.new(|$conf);
+    %!models{$typename} = $object;
+  }
+  else {
+    die "unknown model, '$model', specified in get-model()";
+  }
+  return $object;
 }
 

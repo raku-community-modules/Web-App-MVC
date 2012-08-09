@@ -3,5 +3,8 @@
     "type" : "SCGI",
     "port" : 8118
   },
-  "templatedir" : "./test/Test1/views"
+  "views" : {
+    "type" : "Template6",
+    "dir"  : "./test/Test1/views"
+  }
 }

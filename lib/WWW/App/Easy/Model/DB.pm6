@@ -4,6 +4,9 @@ use v6;
 ## driven models. Your Model class must define a $.rowclass attribute, which must be
 ## either the class name or a type object representing a DB::Row sub-class.
 
+## TODO: Using the Row class, the ability to create the table described by it.
+##       For this to work, we'll need to provide additional meta information.
+
 class WWW::App::Easy::Model::DB {
 
   use DBIish;
@@ -12,7 +15,7 @@ class WWW::App::Easy::Model::DB {
   has $.app;                      ## The WWW::App::Easy reference.
   has $.database;                 ## Our database configuration.
   has $.table;                    ## Our database table.
-  has $!dbh handles <prepare do>; ## Our database handler. Initialized on first request.
+  has $!dbh;                      ## Our database handler. Initialized on first request.
 
   method dbh {
     if ! $!dbh.defined {
@@ -82,6 +85,10 @@ class WWW::App::Easy::Model::DB {
       self!simple-where('<=', $or, %opts);
     }
 
+    method like (Bool :$or?, *%opts) {
+      self!simple-where('LIKE', $or, %opts);
+    }
+
     method and {
       $!sql ~= ' AND';
       return self;
@@ -111,11 +118,12 @@ class WWW::App::Easy::Model::DB {
   } ## End of class SelectStatement.
 
   method row-class {
-    if ($!rowclass ~~ Str) {
-      require $!rowclass;
-      $!rowclass = ::($!rowclass);
+    my $class = $.rowclass;
+    if ($class ~~ Str) {
+      require $class;
+      $class = ::($!rowclass);
     }
-    return $!rowclass;
+    return $class;
   }
 
   ## Represents a prepared SELECT statement. Returns an array of result objects.
@@ -144,7 +152,7 @@ class WWW::App::Easy::Model::DB {
 
   ## Prepare a SELECT statement.
   method prepare-select ($statement) {
-    my $sth = self.prepare($statement);
+    my $sth = $.dbh.prepare($statement);
     PreparedSelectStatement.new(:model(self), :$sth);
   }
 
@@ -152,6 +160,11 @@ class WWW::App::Easy::Model::DB {
   method newrow (*%data) {
     my $class = self.row-class;
     return $class.new(:model(self), :%data, :new-item);
+  }
+
+  ## Prepare wrapper.
+  method prepare ($statement) {
+    $.dbh.prepare($statement);
   }
 
 } ## end class WWW::App::Easy::Model::DB
@@ -165,7 +178,7 @@ class WWW::App::Easy::Model::DB::Row {
   has $.primary-key = 'id';    ## The default if not otherwise specified.
   has $.new-item    = False;   ## Is this a new item?
 
-  method !get-attrs {
+  method get-attrs {
     my %attrs;
     for self.^attributes -> $attr {
       my $name = $attr.name.subst(/^['$'|'@'|'%']'!'/, '');
@@ -218,11 +231,11 @@ class WWW::App::Easy::Model::DB::Row {
         %attrs{$attr_name}.set_value(self, $value);
       }
     }
+    return self;
   }
 
-  ## Pass the build procedure off to the init() method.
-  submethod BUILD (:$model!, :%data!, :$new-item?) {
-    self.init(:$model, :%data, :$new-item);
+  method new (:$model!, :%data!, :$new-item?) {
+    self.bless(*).init(:$model, :%data, :$new-item);
   }
 
   ## Save the row to the database.
@@ -232,6 +245,7 @@ class WWW::App::Easy::Model::DB::Row {
     my @fields; ## A list of fields to set.
     my @values; ## A list of values to set.
     my $insert = $.new-item;
+    my $get-pk = False;
     my $primary-value;
     my %attrs = self.get-attrs;
     for @.fields -> $field {
@@ -275,6 +289,7 @@ class WWW::App::Easy::Model::DB::Row {
           else {
             if $fieldopts ~~ Hash && $fieldopts<auto> {
               $insert = True;
+              $get-pk = True;
               next;
             }
             else {
@@ -313,6 +328,29 @@ class WWW::App::Easy::Model::DB::Row {
       $sql ~= @set.join(',');
       $sql ~= " WHERE {$!primary-key} = $primary-value";
     }
+    my $sth = $.model.prepare($sql);
+    $sth.execute(|@values);
+
+    $!new-item = False;
+
+    if $insert {
+      ## Find our new id. We know the other fields, so lets query from them.
+      my $query = "SELECT {$!primary-key} FROM {$.model.table} WHERE";
+      my @where;
+      for @fields -> $field {
+        @where.push: " $field = ?";
+      }
+      $query ~= @where.join(', ');
+      $query ~= ' LIMIT 1';
+      my $newitem = $.model.prepare($query);
+      $newitem.execute(|@values);
+      my $newrow = $newitem.fetchrow;
+      if $newrow.defined && $newrow[0].defined {
+        %attrs{$!primary-key}.set_value(self, $newrow[0]);
+      }
+    }   
   } ## end method save()
 
 } ## end class WWW::App::Easy::Model::DB::Row
+
+

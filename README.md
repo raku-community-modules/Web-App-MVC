@@ -199,7 +199,7 @@ See the [DBIish documentation](https://github.com/perl6/DBIish/) for more detail
 
 ## TODO
 
-Test the Model related stuff, and get it working properly.
+Finish testing the Model related code. The current test is woefully limited.
 
 ## Author
 

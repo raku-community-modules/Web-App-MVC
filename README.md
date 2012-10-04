@@ -153,6 +153,7 @@ by the libraries, is the __port__ option, which determines which port the connec
 run on. The types may be specified as short keys (and are case insensitive):
 
  * scgi -- Use the SCGI connector.
+ * fcgi -- Use the FastCGI connector.
  * easy -- Use the HTTP::Easy connector.
  * simple -- Use the HTTP::Server::Simple connector.
 

@@ -36,6 +36,12 @@ method new (*%opts) {
         require SCGI;
         $engine = ::('SCGI').new(|%copts);
       }
+      when /f[ast]?cgi/
+      {
+        %copts<PSGI> = True;
+        require FastCGI;
+        $engine = ::('FastCGI').new(|%copts);
+      }
       when /easy/ {
         require HTTP::Easy::PSGI;
         $engine = ::('HTTP::Easy::PSGI').new(|%copts);

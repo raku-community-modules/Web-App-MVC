@@ -7,6 +7,6 @@
     "type" : "Template6",
     "dir"  : "./test/Test1/views"
   },
-  "models" : "./test/Test1/models.json",
-  "db"     : "./test/Test1/db.json"
+  "models" : "./test/Test1/conf/models.json",
+  "db"     : "./test/Test1/conf/db.json"
 }

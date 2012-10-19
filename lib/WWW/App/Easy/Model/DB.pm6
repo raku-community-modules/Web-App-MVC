@@ -29,7 +29,8 @@ class WWW::App::Easy::Model::DB {
   }
 
   ## A sub-class representing a simple SQL SELECT statement.
-  ## This has VERY basic commands. If you need more control, use the prepare() and
+  ## This has VERY basic commands. 
+  ## If you need more control, use the prepare() and
   ## execute() methods of the Model directly instead of using get().
   class SelectStatement {
     has $.model;         ## Our parent model.
@@ -240,7 +241,10 @@ class WWW::App::Easy::Model::DB::Row {
 
   ## Save the row to the database.
   ## This needs some extra work to allow it to create new records with
-  ## manually specified primary keys rather than assuming the use of auto-increment.
+  ## manually specified primary keys rather than assuming the use of 
+  ## auto-increment. Also, I want to implement a system similar to that
+  ## which I use in Nano.php, where on an update, only fields that have
+  ## been modified are included in the UPDATE statement.
   method save {
     my @fields; ## A list of fields to set.
     my @values; ## A list of values to set.

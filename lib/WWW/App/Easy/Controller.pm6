@@ -34,12 +34,14 @@ method render ($template, *%opts) {
   if ($!views.can('process')) {
     return $!views.process($template, |%opts);
   }
-  elsif ($!views.can('get') && $!views.can('render')) {
+  elsif ($!views.can('get')) {
     my $tmpl = $!views.get($template);
-    return $tmpl.render(|%opts);
+    if ($tmpl.can('render'))
+    {
+      return $tmpl.render(|%opts);
+    }
   }
-  else {
-    die "template engine object does not have any supported API calls.";
-  }
+
+  die "template engine object does not have any supported API calls.";
 }
 

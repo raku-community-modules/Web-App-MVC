@@ -136,6 +136,11 @@ and displaying one or more Views (which by default are using the Template6 templ
     </html>
 ```
 
+##
+
+See the included examples in the 'test' folder for even more examples,
+including the use of the WWW::App::Controller::MethodDispatch role.
+
 ##  Configuration File Directives
 
 The main application configuration file, specifies certain settings that will

@@ -6,7 +6,7 @@ class Test1::Controllers::Default is WWW::App::Easy::Controller
 {
   method handle ($context) 
   {
-    $*ERR.say: "in handle()";
+    #$*ERR.say: "in handle()";
     $context.content-type: 'text/plain';
     my $name = $context.get('name', :default<World>);
     my $model = self.get-model(Test1::Model);

@@ -3,12 +3,12 @@
 ## Introduction
 
 A set of extensions to [WWW::App](https://github.com/supernovus/www-app/) 
-providing a MVC-style 
-framework for building dynamic web applications using Perl 6. 
+providing a MVC-style framework for building dynamic web applications.
+
 We include a few base classes and roles, for quickly defining Controllers, 
 capable of loading one or more Models (with an included base class for DB 
 models),  and displaying one or more Views (which can be defined using any
-supported template engine, currently Template6 and Flower::TAL are supported.)
+supported template engine, see below for details.)
 
 ## Example Application Script
 
@@ -138,7 +138,7 @@ supported template engine, currently Template6 and Flower::TAL are supported.)
     </html>
 ```
 
-##
+## More examples
 
 See the included examples in the 'test' folder for even more examples,
 including the use of the WWW::App::Controller::MethodDispatch role.
@@ -163,10 +163,10 @@ connector will run on.
 
 The types may be specified as short keys (and are case insensitive):
 
- * scgi -- Use the SCGI connector.
- * fcgi -- Use the FastCGI connector.
- * easy -- Use the HTTP::Easy connector.
- * simple -- Use the HTTP::Server::Simple connector.
+ * scgi -- Use the [SCGI](https://github.com/supernovus/SCGI/) connector.
+ * fcgi -- Use the [FastCGI](https://github.com/supernovus/perl6-fastcgi/) connector.
+ * easy -- Use the [HTTP::Easy](https://github.com/supernovus/perl6-http-easy/) connector.
+ * simple -- Use the [HTTP::Server::Simple](https://github.com/mberends/http-server-simple/) connector.
 
 #### views
 
@@ -180,8 +180,8 @@ passed to the engine.
 
 The types may be specified as short keys (And are case insensitive):
 
- * 'template6' or 'tt' -- Use the Template6 engine.
- * 'tal' or 'flower' -- Use the Flower::TAL template engine.
+ * 'template6' or 'tt' -- Use the [Template6](https://github.com/supernovus/template6/) engine.
+ * 'tal' or 'flower' -- Use the [Flower::TAL](https://github.com/supernovus/flower/) engine.
 
 Both of these engines support a __dir__ option that can be a single path,
 or an array of paths, which specify the paths to find templates in.

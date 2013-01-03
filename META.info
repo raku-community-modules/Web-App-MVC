@@ -1,15 +1,18 @@
 {
-  "name"        : "WWW::App::Easy",
+  "name"        : "WWW::App::MVC",
   "version"     : "*",
   "description" : "MVC Framework for Web Apps in Perl 6.",
   "depends"     : 
   [ 
-    "WWW::App", 
+    "WWW::App",
+    "SCGI",
+    "FastCGI",
+    "HTTP::Easy",
     "Template6", 
     "Flower", 
     "DBIish", 
     "DateTime::Utils", 
     "JSON::Tiny" 
   ],
-  "source-url"    : "git://github.com/supernovus/perl6-www-app-easy.git"
+  "source-url"    : "git://github.com/supernovus/perl6-www-app-mvc.git"
 }

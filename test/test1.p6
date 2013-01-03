@@ -2,11 +2,11 @@ use v6;
 
 BEGIN { @*INC.push: './lib', './test'; }
 
-use WWW::App::Easy;
+use WWW::App::MVC;
 use Test1::Controllers::Default;
 use Test1::Controllers::Dispatch;
 
-my $app = WWW::App::Easy.new(:config<./test/Test1/conf/app.json>);
+my $app = WWW::App::MVC.new(:config<./test/Test1/conf/app.json>);
 
 $app.add(:handler(Test1::Controllers::Default), :default);
 $app.add(:handler(Test1::Controllers::Dispatch));

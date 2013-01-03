@@ -1,6 +1,6 @@
 use WWW::App::Dispatch;
 
-class WWW::App::Easy is WWW::App::Dispatch;
+class WWW::App::MVC is WWW::App::Dispatch;
 
 use JSON::Tiny;
 

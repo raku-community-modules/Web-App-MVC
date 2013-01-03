@@ -7,12 +7,12 @@ use v6;
 ## TODO: Using the Row class, the ability to create the table described by it.
 ##       For this to work, we'll need to provide additional meta information.
 
-class WWW::App::Easy::Model::DB {
+class WWW::App::MVC::Model::DB {
 
   use DBIish;
 
   has $.rowclass;                 ## Our row class. Must be overridden.
-  has $.app;                      ## The WWW::App::Easy reference.
+  has $.app;                      ## The WWW::App::MVC reference.
   has $.database;                 ## Our database configuration.
   has $.table;                    ## Our database table.
   has $!dbh;                      ## Our database handler. Initialized on first request.
@@ -168,12 +168,12 @@ class WWW::App::Easy::Model::DB {
     $.dbh.prepare($statement);
   }
 
-} ## end class WWW::App::Easy::Model::DB
+} ## end class WWW::App::MVC::Model::DB
 
 ## An abstract class foundation to use with your row classes.
 ## You MUST define a @.fields member, which maps database columns, to object attributes.
 
-class WWW::App::Easy::Model::DB::Row {
+class WWW::App::MVC::Model::DB::Row {
   
   has $.model;                 ## The parent DB model object.
   has $.primary-key = 'id';    ## The default if not otherwise specified.
@@ -355,6 +355,6 @@ class WWW::App::Easy::Model::DB::Row {
     }   
   } ## end method save()
 
-} ## end class WWW::App::Easy::Model::DB::Row
+} ## end class WWW::App::MVC::Model::DB::Row
 
 

@@ -1,8 +1,8 @@
 use v6;
 
-class WWW::App::Easy::Controller;
+class WWW::App::MVC::Controller;
 
-has $.app handles <get-model>;      ## WWW::App::Easy instance.
+has $.app handles <get-model>;      ## WWW::App::MVC instance.
 has $.views;                        ## Template engine to use for views.
 
 submethod BUILD (:$app) 

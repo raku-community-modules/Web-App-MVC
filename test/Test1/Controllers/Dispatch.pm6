@@ -1,10 +1,10 @@
 use v6;
-use WWW::App::Easy::Controller;
-use WWW::App::Easy::Controller::MethodDispatch;
+use WWW::App::MVC::Controller;
+use WWW::App::MVC::Controller::MethodDispatch;
 
 class Test1::Controllers::Dispatch 
-      is WWW::App::Easy::Controller 
-    does WWW::App::Easy::Controller::MethodDispatch
+      is WWW::App::MVC::Controller 
+    does WWW::App::MVC::Controller::MethodDispatch
 {
   method handle_echo ($context, *@paths)
   {

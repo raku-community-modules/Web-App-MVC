@@ -1,6 +1,6 @@
 use v6;
 
-role WWW::App::Easy::Controller::MethodDispatch;
+role WWW::App::MVC::Controller::MethodDispatch;
 
 ## If your controller class is to be used as a default
 ## controller, then set the $!default to one of:

@@ -1,4 +1,4 @@
-# WWW::App::Easy
+# WWW::App::MVC
 
 ## Introduction
 
@@ -13,10 +13,10 @@ supported template engine, see below for details.)
 ## Example Application Script
 
 ```perl
-    use WWW::App::Easy;
+    use WWW::App::MVC;
     use My::Controller;
 
-    my $app  = WWW::App::Easy.new(:config<./conf/app.json>);
+    my $app  = WWW::App::MVC.new(:config<./conf/app.json>);
 
     $app.add(:handler(My::Controller));
 
@@ -73,9 +73,9 @@ supported template engine, see below for details.)
 ## Example Controller Library
 
 ```perl
-    use WWW::App::Easy::Controller;
+    use WWW::App::MVC::Controller;
     use My::Models::Example;
-    class My::Controller is WWW::App::Easy::Controller {
+    class My::Controller is WWW::App::MVC::Controller {
       method handle ($context) {
         $context.content-type: 'text/html';
         my $id = $context.get('id', :default(1));
@@ -94,8 +94,8 @@ supported template engine, see below for details.)
 ## Example Model Library
 
 ```perl
-    use WWW::App::Easy::Model::DB;
-    class My::Models::Example::User is WWW::App::Easy::Model::DB::Row {
+    use WWW::App::MVC::Model::DB;
+    class My::Models::Example::User is WWW::App::MVC::Model::DB::Row {
       has $.id;
       has $.name is rw;
       has $.age  is rw;
@@ -105,7 +105,7 @@ supported template engine, see below for details.)
       ## 'id' is a primary key, auto-generated. The column for 'job' is called 'position'.
       has @.fields = 'id' => {:primary, :auto}, 'name', 'age', 'job' => 'position';
     }
-    class My::Models::Example is WWW::App::Easy::Model::DB {
+    class My::Models::Example is WWW::App::MVC::Model::DB {
       has $.rowclass = My::Models::Example::User;
       method getUserById ($id) {
         self.get.with(:id($id)).row;
@@ -152,7 +152,7 @@ below is a list of known and/or required settings.
 
 #### connector
 
-Required by WWW::App::Easy, this hash specifies which connector engine to 
+Required by WWW::App::MVC, this hash specifies which connector engine to 
 use to handle your application. 
 We support the same connectors as WWW::App itself. The __type__ key
 determines the name of the library to use, and all other options will be 
@@ -196,7 +196,7 @@ of your model, then the hash entries within will be passed as named
 options to your model class. 
 
 There are no standards for this, unless you are using the 
-WWW::App::Easy::Model::DB base class, in which case you must supply 
+WWW::App::MVC::Model::DB base class, in which case you must supply 
 __database__ and __table__ parameters. 
 The __database__ parameter must be the name of a defined database in 
 the __db__ configuration (see below.)
@@ -205,7 +205,7 @@ the __db__ configuration (see below.)
 
 This specifies the file name for the database configuration file.
 
-If you are using the WWW::App::Easy::Model::DB base class, 
+If you are using the WWW::App::MVC::Model::DB base class, 
 you must specify a list of databases in the database configuration file. 
 You can refer to these database configurations from the model configuration, 
 using the __database__ key. Within the specific database configurations, 

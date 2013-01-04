@@ -2,7 +2,7 @@
 
 ## Introduction
 
-A set of extensions to [WWW::App](https://github.com/supernovus/www-app/) 
+A set of extensions to [WWW::App](https://github.com/supernovus/perl6-www-app/) 
 providing a MVC-style framework for building dynamic web applications.
 
 We include a few base classes and roles, for quickly defining Controllers, 

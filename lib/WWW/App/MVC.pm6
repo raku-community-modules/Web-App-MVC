@@ -126,22 +126,56 @@ method process-handler ($handler, $context) {
   }
 }
 
+method extract-config-path ($hash, *@paths)
+{
+  my $current = $hash;
+  for @paths -> $path
+  {
+    if $current ~~ Hash && $current.exists($path)
+    {
+      $current = $current{$path};
+    }
+    else
+    {
+      $current = Nil;
+      last;
+    }
+  }
+  if $current ~~ Hash && $current.exists('.include')
+  {
+    my $include = $current<.include>;
+    my @incpath = $include.split('.');
+    my $cname = @incpath.shift;
+    my $config = self.get-config($cname);
+    my $conf = self.extract-config-path($config, |@incpath);
+    if $conf ~~ Hash
+    {
+      $current = { |$current, |$conf };
+    }
+  }
+  return $current;
+}
+
+## Get model options.
+method !get-model-opts ($modelname)
+{
+  my $models = self.get-config('models');
+  my $opts = self.extract-config-path($models, $modelname) // {};
+  $opts<caller> = self;
+  return $opts;
+}
+
 ## Get a model object.
 method get-model ($model) {
   my $object;
-  my $confs = self.get-config('models');
-  my $conf = {};
   if $model.defined {
     if $model ~~ Str {
       ## If you pass a string, we consider it to be the class name.
       if (%!models.exists($model)) {
         return %!models{$model};
       }
-      if $confs.exists($model) {
-        $conf = $confs{$model};
-      }
+      $conf = self!get-model-opts($model);
       require $model;
-      $conf<app> = self;
       $object = ::($model).new(|$conf);
       %!models{$model} = $object;
     }
@@ -156,10 +190,7 @@ method get-model ($model) {
     if %!models.exists($typename) {
       return %!models{$typename};
     }
-    if $confs.exists($typename) {
-      $conf = $confs{$typename};
-    }
-    $conf<app> = self;
+    $conf = self!get-model-opts($typename);
     $object = $model.new(|$conf);
     %!models{$typename} = $object;
   }

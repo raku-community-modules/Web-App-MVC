@@ -1,7 +1,7 @@
 use v6;
-use WWW::App::MVC::Model::DB;
+use DB::Model::Easy;
 
-class Test1::Model::Row is WWW::App::MVC::Model::DB::Row {
+class Test1::Model::Row is DB::Model::Easy::Row {
   has $.id;
   has $.name is rw;
   has $.age  is rw;
@@ -15,7 +15,7 @@ class Test1::Model::Row is WWW::App::MVC::Model::DB::Row {
   }
 }
 
-class Test1::Model is WWW::App::MVC::Model::DB {
+class Test1::Model is DB::Model::Easy {
   has $.rowclass = Test1::Model::Row;
 }
 

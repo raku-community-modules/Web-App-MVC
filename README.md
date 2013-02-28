@@ -6,9 +6,8 @@ A set of extensions to [WWW::App](https://github.com/supernovus/perl6-www-app/)
 providing a MVC-style framework for building dynamic web applications.
 
 We include a few base classes and roles, for quickly defining Controllers, 
-capable of loading one or more Models (with an included base class for DB 
-models),  and displaying one or more Views (which can be defined using any
-supported template engine, see below for details.)
+capable of loading one or more Models (with built-in support for models based
+on the [DB::Model::Easy](https://github.com/supernovus/perl6-db-model-easy/) library) and displaying one or more Views.
 
 ## Example Application Script
 
@@ -42,6 +41,17 @@ supported template engine, see below for details.)
     }
 ```
 
+### ./conf/models.json
+
+```json
+    {
+      "My::Models::Example" : {
+        ".include" : "db.defaultdb",
+        "table"    : "mytable"
+      }
+    }
+```
+
 ### ./conf/db.json
 
 ```json
@@ -55,17 +65,6 @@ supported template engine, see below for details.)
           "user"     : "myappuser",
           "password" : "myapppass"
         }
-      }
-    }
-```
-
-### ./conf/models.json
-
-```json
-    {
-      "My::Models::Example" : {
-        "database" : "defaultdb",
-        "table"    : "mytable"
       }
     }
 ```
@@ -94,8 +93,8 @@ supported template engine, see below for details.)
 ## Example Model Library
 
 ```perl
-    use WWW::App::MVC::Model::DB;
-    class My::Models::Example::User is WWW::App::MVC::Model::DB::Row {
+    use DB::Model::Easy;
+    class My::Models::Example::User is DB::Model::Easy::Row {
       has $.id;
       has $.name is rw;
       has $.age  is rw;
@@ -105,7 +104,7 @@ supported template engine, see below for details.)
       ## 'id' is a primary key, auto-generated. The column for 'job' is called 'position'.
       has @.fields = 'id' => {:primary, :auto}, 'name', 'age', 'job' => 'position';
     }
-    class My::Models::Example is WWW::App::MVC::Model::DB {
+    class My::Models::Example is DB::Model::Easy {
       has $.rowclass = My::Models::Example::User;
       method getUserById ($id) {
         self.get.with(:id($id)).row;
@@ -196,20 +195,23 @@ of your model, then the hash entries within will be passed as named
 options to your model class. 
 
 There are no standards for this, unless you are using the 
-WWW::App::MVC::Model::DB base class, in which case you must supply 
-__database__ and __table__ parameters. 
-The __database__ parameter must be the name of a defined database in 
-the __db__ configuration (see below.)
+DB::Model::Easy base class, in which case you must supply 
+a __table__ parameter here. You may also specify __driver__ and __opts__ 
+parameters here, but they are best stored in a separate configuration file,
+which can be included here using a __.include__ parameter (see below.)
 
 #### db
 
 This specifies the file name for the database configuration file.
 
-If you are using the WWW::App::MVC::Model::DB base class, 
-you must specify a list of databases in the database configuration file. 
+If you are using the DB::Model::Easy base class, then it needs to know
+the connection details for databases. This file should exist to contain the
+configuration details.
+
 You can refer to these database configurations from the model configuration, 
-using the __database__ key. Within the specific database configurations, 
-the __driver__ and __opts__ parameters will determine the db connection.
+using a special __.include__ parameter which uses a limited JSON Path syntax.
+
+The __driver__ and __opts__ parameters will determine the db connection.
 
 Supported __drivers__ are whatever DBIish supports. Currently this is:
 
@@ -223,7 +225,7 @@ for more details.
 
 ## TODO
 
- * Finish testing the Model related code. The current test is woefully limited.
+ * Refactor how we support Template engines, connectors, etc.
  * Add more Template engines.
 
 ## Author

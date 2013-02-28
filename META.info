@@ -10,7 +10,7 @@
     "HTTP::Easy",
     "Template6", 
     "Flower", 
-    "DBIish", 
+    "DB::Model::Easy", 
     "DateTime::Utils", 
     "JSON::Tiny" 
   ],

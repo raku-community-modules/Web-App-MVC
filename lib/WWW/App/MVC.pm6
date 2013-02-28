@@ -174,7 +174,7 @@ method get-model ($model) {
       if (%!models.exists($model)) {
         return %!models{$model};
       }
-      $conf = self!get-model-opts($model);
+      my $conf = self!get-model-opts($model);
       require $model;
       $object = ::($model).new(|$conf);
       %!models{$model} = $object;
@@ -190,7 +190,7 @@ method get-model ($model) {
     if %!models.exists($typename) {
       return %!models{$typename};
     }
-    $conf = self!get-model-opts($typename);
+    my $conf = self!get-model-opts($typename);
     $object = $model.new(|$conf);
     %!models{$typename} = $object;
   }

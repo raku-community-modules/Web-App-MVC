@@ -1,8 +1,8 @@
-# WWW::App::MVC
+# Web::App::MVC
 
 ## Introduction
 
-A set of extensions to [WWW::App](https://github.com/supernovus/perl6-www-app/) 
+A set of extensions to [Web::App](https://github.com/supernovus/perl6-web/) 
 providing a MVC-style framework for building dynamic web applications.
 
 We include a few base classes and roles, for quickly defining Controllers, 
@@ -12,10 +12,10 @@ on the [DB::Model::Easy](https://github.com/supernovus/perl6-db-model-easy/) lib
 ## Example Application Script
 
 ```perl
-    use WWW::App::MVC;
+    use Web::App::MVC;
     use My::Controller;
 
-    my $app  = WWW::App::MVC.new(:config<./conf/app.json>);
+    my $app  = Web::App::MVC.new(:config<./conf/app.json>);
 
     $app.add(:handler(My::Controller));
 
@@ -72,9 +72,9 @@ on the [DB::Model::Easy](https://github.com/supernovus/perl6-db-model-easy/) lib
 ## Example Controller Library
 
 ```perl
-    use WWW::App::MVC::Controller;
+    use Web::App::MVC::Controller;
     use My::Models::Example;
-    class My::Controller is WWW::App::MVC::Controller {
+    class My::Controller is Web::App::MVC::Controller {
       method handle ($context) {
         $context.content-type: 'text/html';
         my $id = $context.get('id', :default(1));
@@ -140,7 +140,7 @@ on the [DB::Model::Easy](https://github.com/supernovus/perl6-db-model-easy/) lib
 ## More examples
 
 See the included examples in the 'test' folder for even more examples,
-including the use of the WWW::App::Controller::MethodDispatch role.
+including the use of the Web::App::Controller::MethodDispatch role.
 
 ##  Configuration File Directives
 
@@ -151,9 +151,9 @@ below is a list of known and/or required settings.
 
 #### connector
 
-Required by WWW::App::MVC, this hash specifies which connector engine to 
+Required by Web::App::MVC, this hash specifies which connector engine to 
 use to handle your application. 
-We support the same connectors as WWW::App itself. The __type__ key
+We support the same connectors as Web::App itself. The __type__ key
 determines the name of the library to use, and all other options will be 
 passed to the respective libraries. 
 At this time, the only other option supported (and indeed required)

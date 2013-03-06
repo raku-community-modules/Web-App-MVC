@@ -1,10 +1,10 @@
 {
-  "name"        : "WWW::App::MVC",
+  "name"        : "Web::App::MVC",
   "version"     : "*",
   "description" : "MVC Framework for Web Apps in Perl 6.",
   "depends"     : 
   [ 
-    "WWW::App",
+    "Web",
     "SCGI",
     "FastCGI",
     "HTTP::Easy",
@@ -14,5 +14,5 @@
     "DateTime::Utils", 
     "JSON::Tiny" 
   ],
-  "source-url"    : "git://github.com/supernovus/perl6-www-app-mvc.git"
+  "source-url"    : "git://github.com/supernovus/perl6-web-app-mvc.git"
 }

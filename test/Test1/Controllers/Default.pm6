@@ -1,8 +1,8 @@
 use v6;
-use WWW::App::MVC::Controller;
+use Web::App::MVC::Controller;
 use Test1::Model;
 
-class Test1::Controllers::Default is WWW::App::MVC::Controller 
+class Test1::Controllers::Default is Web::App::MVC::Controller 
 {
   method handle ($context) 
   {

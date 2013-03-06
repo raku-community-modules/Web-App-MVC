@@ -1,6 +1,6 @@
 use v6;
 
-role WWW::App::MVC::Controller::MethodDispatch;
+role Web::App::MVC::Controller::MethodDispatch;
 
 ## If your controller class is to be used as a default
 ## controller, then set the $!default to one of:

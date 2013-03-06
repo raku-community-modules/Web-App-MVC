@@ -1,6 +1,6 @@
-use WWW::App::Dispatch;
+use Web::App::Dispatch;
 
-class WWW::App::MVC is WWW::App::Dispatch;
+class Web::App::MVC is Web::App::Dispatch;
 
 use JSON::Tiny;
 
@@ -10,7 +10,7 @@ has %!sessions;  ## A list of in-memory client sessions.
 has %!handlers;  ## Cached handler/controller objects.
 has %!models;    ## Cached model objects.
 
-## Overrides the new() from WWW::App, with support for a :config option.
+## Overrides the new() from Web::App, with support for a :config option.
 method new (*%opts) {
   my %config;
   my $engine;

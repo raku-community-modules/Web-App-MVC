@@ -13,62 +13,45 @@ submethod BUILD (:$app)
   {
     given $views<type>.lc 
     {
-      my $dir = $views<dir> // './views';
       when 'template6' | 'tt'
       {
-        require Template6;
-        $!views = ::('Template6').new;
-        if $dir ~~ Array 
-        {
-          for $dir -> $tdir 
-          {
-            $!views.add-path: $tdir;
-          }
-        }
-        else 
-        {
-          $!views.add-path: $dir;
-        }
+        require Web::Template::Template6;
+        $!views = ::('Web::Template::Template6').new;
       }
       when 'tal' | 'flower'
       {
-        require Flower::TAL;
-        $!views = ::('Flower::TAL').new;
-        if $dir ~~ Array
-        {
-          for $dir -> $tdir
-          {
-            $!views.provider.add-path: $tdir;
-          }
-        }
-        else
-        {
-          $!views.provider.add-path: $dir;
-        }
+        require Web::Template::TAL;
+        $!views = ::('Web::Template::TAL').new;
+      }
+      when 'html'
+      {
+        require Web::Template::HTML;
+        $!views = ::('Web::Template::HTML').new;
+      }
+      when 'mojo'
+      {
+        require Web::Template::Mojo;
+        $!views = ::('Web::Template::Mojo').new;
       }
       default { die "unknown or unsupported template engine."; }
+    }
+
+    my $dir = $views<dir> // './views';
+    if $dir ~~ Array
+    {
+      $!views.set-path(|@$dir);
+    }
+    else
+    {
+      $!views.set-path($dir);
     }
   }
 }
 
-method render ($template, *%opts) 
+## This became a whole lot simpler when we moved to Web::Template.
+method render ($template, *%named, *@positional) 
 {
-  if ! $!views.defined { die "no template engine has been specified."; }
-
-  if ($!views.can('process')) 
-  {
-    return $!views.process($template, |%opts);
-  }
-  elsif ($!views.can('get')) 
-  {
-    my $tmpl = $!views.get($template);
-    if ($tmpl.can('render'))
-    {
-      return $tmpl.render(|%opts);
-    }
-  }
-
-  die "template engine object does not have any supported API calls.";
+  $!views.render($template, |%names, |@positional);
 }
 
 method handle ($context) { ... }

@@ -177,12 +177,17 @@ As with connector, the __type__ key specifies the name of the supported
 template engine  library you want to use, and all other parameters are 
 passed to the engine.
 
+We support any template engine that has a wrapper class available in the
+[Web::Template](https://github.com/supernovus/perl6-web-template/) library.
+
 The types may be specified as short keys (And are case insensitive):
 
  * 'template6' or 'tt' -- Use the [Template6](https://github.com/supernovus/template6/) engine.
  * 'tal' or 'flower' -- Use the [Flower::TAL](https://github.com/supernovus/flower/) engine.
+ * 'html' -- Use the [HTML::Template](https://github.com/masak/html-template/) engine.
+ * 'mojo' -- Use the [Template::Mojo](https://github.com/tadzik/Template-Mojo/) engine.
 
-Both of these engines support a __dir__ option that can be a single path,
+All of these engines support a __dir__ option that can be a single path,
 or an array of paths, which specify the paths to find templates in.
 
 #### models
@@ -222,11 +227,6 @@ Supported __drivers__ are whatever DBIish supports. Currently this is:
 The __opts__ parameters differ from one driver to the next. 
 See the [DBIish documentation](https://github.com/perl6/DBIish/) 
 for more details.
-
-## TODO
-
- * Refactor how we support Template engines, connectors, etc.
- * Add more Template engines.
 
 ## Author
 

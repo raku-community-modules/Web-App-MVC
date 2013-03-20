@@ -6,10 +6,8 @@
   [ 
     "Web",
     "SCGI",
-    "FastCGI",
     "HTTP::Easy",
-    "Template6", 
-    "Flower", 
+    "Web::Template",
     "DB::Model::Easy", 
     "DateTime::Utils", 
     "JSON::Tiny" 

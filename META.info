@@ -11,5 +11,10 @@
     "DB::Model::Easy", 
     "JSON::Tiny" 
   ],
+  "provides" : {
+    "Web::App::MVC"               : "lib/Web/App/MVC.pm6",
+    "Web::App::MVC::Controller"   : "lib/Web/App/Controller.pm6",
+    "Web::App::MVC::Controller::MethodDispatch" : "lib/Web/App/Controller/MethodDispatch.pm6"
+  },
   "source-url"    : "git://github.com/supernovus/perl6-web-app-mvc.git"
 }

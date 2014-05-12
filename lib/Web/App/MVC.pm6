@@ -150,7 +150,7 @@ method extract-config-path ($hash, *@paths)
     my $conf = self.extract-config-path($config, |@incpath);
     if $conf ~~ Hash
     {
-      $current = { |$current, |$conf };
+      $current = ( @$current, @$conf ).flat;
     }
   }
   return $current;

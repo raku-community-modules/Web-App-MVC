@@ -51,7 +51,7 @@ submethod BUILD (:$app)
 ## This became a whole lot simpler when we moved to Web::Template.
 method render ($template, *%named, *@positional) 
 {
-  $!views.render($template, |%names, |@positional);
+  $!views.render($template, |%named, |@positional);
 }
 
 method handle ($context) { ... }

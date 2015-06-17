@@ -1,6 +1,6 @@
 use Web::App::Dispatch;
 
-class Web::App::MVC is Web::App::Dispatch;
+unit class Web::App::MVC is Web::App::Dispatch;
 
 use JSON::Tiny;
 

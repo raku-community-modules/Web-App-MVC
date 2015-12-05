@@ -1,6 +1,6 @@
 use v6;
 
-BEGIN { @*INC.push: './lib', './test'; }
+use lib <test lib>;
 
 use Web::App::MVC;
 use Test1::Controllers::Default;

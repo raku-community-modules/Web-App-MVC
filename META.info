@@ -1,4 +1,5 @@
 {
+  "perl"        : "6.*",
   "name"        : "Web::App::MVC",
   "version"     : "*",
   "description" : "MVC Framework for Web Apps in Perl 6.",

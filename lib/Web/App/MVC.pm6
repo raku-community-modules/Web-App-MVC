@@ -22,7 +22,6 @@ method new (*%opts) {
   }
   elsif %config<connector>:exists {
     my %cx = %config<connector>;
-    say %cx<type>:exists;
     if not %cx<type>:exists { die "no type specified in connector configuration" }
     my $type = %cx<type>;
     my %copts = {};

@@ -1,10 +1,10 @@
 language: perl6
 
 perl6:
-	- latest
+    - latest
 
 install:
-	- rakudobrew build-zef
-	- zef update && zef install Web::App::Dispatch JSON::Tiny DB::Model::Easy SCGI
+    - rakudobrew build-zef
+    - zef update && zef install Web::App::Dispatch JSON::Tiny DB::Model::Easy SCGI
 script:
-	- PERL6LIB=lib prove -v -r --ext p6 --exec=perl6 test/
+    - PERL6LIB=lib prove -v -r --ext p6 --exec=perl6 test/

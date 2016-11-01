@@ -1,5 +1,6 @@
 use v6;
 use DB::Model::Easy;
+use DB::Model::Easy::Row;
 
 class Test1::Model::Row is DB::Model::Easy::Row {
   has $.id;

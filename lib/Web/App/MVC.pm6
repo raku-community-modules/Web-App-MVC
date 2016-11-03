@@ -14,20 +14,20 @@ has %!models;    ## Cached model objects.
 method new (*%opts) {
   my %config;
   my $engine;
-  if %opts.exists('config') {
+  if %opts<config>:exists {
     %config = from-json(slurp(%opts<config>));
   }
-  if %opts.exists('connector') {
+  if %opts<connector>:exists {
     $engine = %opts<connector>;
   }
-  elsif %config.exists('connector') {
-    my $cx = %config<connector>;
-    if ! $cx.exists('type') { die "no type specified in connector configuration" }
-    my $type = $cx<type>;
+  elsif %config<connector>:exists {
+    my %cx = %config<connector>;
+    if not %cx<type>:exists { die "no type specified in connector configuration" }
+    my $type = %cx<type>;
     my %copts = {};
-    for $cx.keys -> $cxopt {
+    for %cx.keys -> $cxopt {
       if $cxopt ne 'type' {
-        %copts{$cxopt} = $cx{$cxopt};
+        %copts{$cxopt} = %cx{$cxopt}; 
       }
     }
     given $type.lc {

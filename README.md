@@ -1,4 +1,4 @@
-# Web::App::MVC
+# Web::App::MVC [![Build Status](https://travis-ci.org/supernovus/perl6-web-app-mvc.svg?branch=master)](https://travis-ci.org/supernovus/perl6-web-app-mvc)
 
 ## Introduction
 

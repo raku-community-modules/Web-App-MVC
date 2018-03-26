@@ -59,7 +59,7 @@ method new (*%opts) {
   else {
     die "no connector specified";
   }
-  return self.bless(*, :$engine, :%config);
+  return self.bless(:$engine, :%config);
 }
 
 ## Load an on-demand configuration.

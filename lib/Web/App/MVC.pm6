@@ -24,7 +24,7 @@ method new (*%opts) {
     my %cx = %config<connector>;
     if not %cx<type>:exists { die "no type specified in connector configuration" }
     my $type = %cx<type>;
-    my %copts = {};
+    my %copts := {};
     for %cx.keys -> $cxopt {
       if $cxopt ne 'type' {
         %copts{$cxopt} = %cx{$cxopt}; 

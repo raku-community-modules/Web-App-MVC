@@ -2,7 +2,7 @@
   "perl"        : "6.*",
   "name"        : "Web::App::MVC",
   "version"     : "*",
-  "description" : "MVC Framework for Web Apps in Perl 6.",
+  "description" : "MVC Framework for Web Apps in Raku",
   "depends"     :
   [
     "Web",
@@ -17,5 +17,5 @@
     "Web::App::MVC::Controller"   : "lib/Web/App/MVC/Controller.pm6",
     "Web::App::MVC::Controller::MethodDispatch" : "lib/Web/App/MVC/Controller/MethodDispatch.pm6"
   },
-  "source-url"    : "git://github.com/supernovus/perl6-web-app-mvc.git"
+  "source-url"    : "git://github.com/raku-community-modules/Web-App-MVC.git"
 }

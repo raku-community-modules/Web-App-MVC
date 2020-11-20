@@ -225,7 +225,7 @@ Supported __drivers__ are whatever DBIish supports. Currently this is:
   * SQLite
 
 The __opts__ parameters differ from one driver to the next. 
-See the [DBIish documentation](https://github.com/perl6/DBIish/) 
+See the [DBIish documentation](https://github.com/raku-community-modules/DBIish/) 
 for more details.
 
 ## Author

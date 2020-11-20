@@ -11,7 +11,7 @@ on the [DB::Model::Easy](https://github.com/supernovus/perl6-db-model-easy/) lib
 
 ## Example Application Script
 
-```perl
+```raku
     use Web::App::MVC;
     use My::Controller;
 
@@ -71,7 +71,7 @@ on the [DB::Model::Easy](https://github.com/supernovus/perl6-db-model-easy/) lib
 
 ## Example Controller Library
 
-```perl
+```raku
     use Web::App::MVC::Controller;
     use My::Models::Example;
     class My::Controller is Web::App::MVC::Controller {
@@ -92,7 +92,7 @@ on the [DB::Model::Easy](https://github.com/supernovus/perl6-db-model-easy/) lib
 
 ## Example Model Library
 
-```perl
+```raku
     use DB::Model::Easy;
     class My::Models::Example::User is DB::Model::Easy::Row {
       has $.id;
@@ -230,7 +230,7 @@ for more details.
 
 ## Author
 
-Timothy Totten. Catch me on #perl6 as 'supernovus'.
+Timothy Totten. Catch me on #raku as 'supernovus'.
 
 ## License
 

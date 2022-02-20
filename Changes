@@ -2,5 +2,8 @@ Revision history for Web::App::MVC
 
 {{$NEXT}}
 
+0.0.2  2022-02-20T12:45:48+01:00
+    - Fix dependency on Web, it should be Web::App
+
 0.0.1  2022-02-20T12:30:31+01:00
     - First version in zef ecosystem

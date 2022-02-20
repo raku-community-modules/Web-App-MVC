@@ -1,4 +1,4 @@
-# Web::App::MVC [![Build Status](https://travis-ci.org/supernovus/perl6-web-app-mvc.svg?branch=master)](https://travis-ci.org/supernovus/perl6-web-app-mvc)
+[![Actions Status](https://github.com/raku-community-modules/Web-App-MVC/workflows/test/badge.svg)](https://github.com/raku-community-modules/Web-App-MVC/actions)
 
 ## Introduction
 
@@ -12,14 +12,14 @@ on the [DB::Model::Easy](https://github.com/supernovus/perl6-db-model-easy/) lib
 ## Example Application Script
 
 ```raku
-    use Web::App::MVC;
-    use My::Controller;
+use Web::App::MVC;
+use My::Controller;
 
-    my $app  = Web::App::MVC.new(:config<./conf/app.json>);
+my $app  = Web::App::MVC.new(:config<./conf/app.json>);
 
-    $app.add(:handler(My::Controller));
+$app.add(:handler(My::Controller));
 
-    $app.run;
+$app.run;
 ```
 
 ## Example Configuration Files
@@ -27,55 +27,55 @@ on the [DB::Model::Easy](https://github.com/supernovus/perl6-db-model-easy/) lib
 ### ./conf/app.json
 
 ```json
-    {
-      "connector"   : {
-        "type"      : "SCGI",
-        "port"      : 8118
-      },
-      "views"       : {
-        "type"      : "Template6",        
-        "dir"       : "./templates"
-      },
-      "db"          : "./conf/db.json",
-      "models"      : "./conf/models.json"
-    }
+{
+  "connector"   : {
+    "type"      : "SCGI",
+    "port"      : 8118
+  },
+  "views"       : {
+    "type"      : "Template6",        
+    "dir"       : "./templates"
+  },
+  "db"          : "./conf/db.json",
+  "models"      : "./conf/models.json"
+}
 ```
 
 ### ./conf/models.json
 
 ```json
-    {
-      "My::Models::Example" : {
-        ".include" : "db.defaultdb",
-        "table"    : "mytable"
-      }
-    }
+{
+  "My::Models::Example" : {
+    ".include" : "db.defaultdb",
+    "table"    : "mytable"
+  }
+}
 ```
 
 ### ./conf/db.json
 
 ```json
-    {
-      "defaultdb" : {
-        "driver" : "mysql",
-        "opts"   : {
-          "host"     : "localhost",
-          "port"     : 3306,
-          "database" : "myappdb",
-          "user"     : "myappuser",
-          "password" : "myapppass"
-        }
-      }
+{
+  "defaultdb" : {
+    "driver" : "mysql",
+    "opts"   : {
+      "host"     : "localhost",
+      "port"     : 3306,
+      "database" : "myappdb",
+      "user"     : "myappuser",
+      "password" : "myapppass"
     }
+  }
+}
 ```
 
 ## Example Controller Library
 
 ```raku
-    use Web::App::MVC::Controller;
-    use My::Models::Example;
-    class My::Controller is Web::App::MVC::Controller {
-      method handle ($context) {
+use Web::App::MVC::Controller;
+use My::Models::Example;
+class My::Controller is Web::App::MVC::Controller {
+    method handle ($context) {
         $context.content-type: 'text/html';
         my $id = $context.get('id', :default(1));
 
@@ -86,55 +86,55 @@ on the [DB::Model::Easy](https://github.com/supernovus/perl6-db-model-easy/) lib
         my $jobusers = $model.get.with(:job($user.job)).and.not(:id($user.id)).rows;
 
         $context.send: self.render('default', :$name, :$jobusers);
-      }
     }
+}
 ```
 
 ## Example Model Library
 
 ```raku
-    use DB::Model::Easy;
-    class My::Models::Example::User is DB::Model::Easy::Row {
-      has $.id;
-      has $.name is rw;
-      has $.age  is rw;
-      has $.job  is rw;
+use DB::Model::Easy;
+class My::Models::Example::User is DB::Model::Easy::Row {
+    has $.id;
+    has $.name is rw;
+    has $.age  is rw;
+    has $.job  is rw;
 
-      ## Rules for mapping database columns to object attributes.
-      ## 'id' is a primary key, auto-generated. The column for 'job' is called 'position'.
-      has @.fields = 'id' => {:primary, :auto}, 'name', 'age', 'job' => 'position';
-    }
-    class My::Models::Example is DB::Model::Easy {
-      has $.rowclass = My::Models::Example::User;
-      method getUserById ($id) {
+    ## Rules for mapping database columns to object attributes.
+    ## 'id' is a primary key, auto-generated. The column for 'job' is called 'position'.
+    has @.fields = 'id' => {:primary, :auto}, 'name', 'age', 'job' => 'position';
+}
+class My::Models::Example is DB::Model::Easy {
+    has $.rowclass = My::Models::Example::User;
+    method getUserById ($id) {
         self.get.with(:id($id)).row;
-      }
     }
+}
 ```
 
 ## Example View Template
 
 ```html
-    <html>
-      <head>
-        <title>Hello [% name %]</title>
-      </head>
-      <body>
-        <h1>Other users with the same job as you</h1>
-        <table>
-          <tr>
-            <th>Name</th>
-            <th>Age</th>
-          </tr>
-          [% for jobusers as user %]
-          <tr>
-            <th>[% user.name %]</th>
-            <th>[% user.age %]</th>
-          </tr>
-          [% end %]
-        </table>
-      </body>
-    </html>
+<html>
+  <head>
+    <title>Hello [% name %]</title>
+  </head>
+  <body>
+    <h1>Other users with the same job as you</h1>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+      </tr>
+      [% for jobusers as user %]
+      <tr>
+        <th>[% user.name %]</th>
+        <th>[% user.age %]</th>
+      </tr>
+      [% end %]
+    </table>
+  </body>
+</html>
 ```
 
 ## More examples
@@ -228,11 +228,17 @@ The __opts__ parameters differ from one driver to the next.
 See the [DBIish documentation](https://github.com/raku-community-modules/DBIish/) 
 for more details.
 
-## Author
+## AUTHOR
 
-Timothy Totten. Catch me on #raku as 'supernovus'.
+Timothy Totten
 
-## License
+Source can be located at: https://github.com/raku-community-modules/Web-App-MVC . Comments and Pull Requests are welcome.
 
-Artistic License 2.0
+COPYRIGHT AND LICENSE
+=====================
 
+Copyright 2012 - 2018 Timothy Totten
+
+Copyright 2019 - 2022 Raku Community
+
+This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.

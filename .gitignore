@@ -1,2 +1,2 @@
-Makefile
-blib/
+.precomp/
+/Web-App-MVC-*

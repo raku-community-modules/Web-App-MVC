@@ -1,10 +1,9 @@
 {
-  "perl"        : "6.*",
-  "name"        : "Web::App::MVC",
-  "version"     : "*",
-  "description" : "MVC Framework for Web Apps in Raku",
-  "depends"     :
-  [
+  "auth": "zef:raku-community-modules",
+  "author": "Timothy Totten",
+  "build-depends": [
+  ],
+  "depends": [
     "Web",
     "SCGI",
     "HTTP::Easy",
@@ -12,10 +11,21 @@
     "DB::Model::Easy",
     "JSON::Tiny"
   ],
-  "provides" : {
-    "Web::App::MVC"               : "lib/Web/App/MVC.pm6",
-    "Web::App::MVC::Controller"   : "lib/Web/App/MVC/Controller.pm6",
-    "Web::App::MVC::Controller::MethodDispatch" : "lib/Web/App/MVC/Controller/MethodDispatch.pm6"
+  "description": "MVC Framework for Web Apps in Raku",
+  "license": "Artistic-2.0",
+  "name": "Web::App::MVC",
+  "perl": "6.*",
+  "provides": {
+    "Web::App::MVC": "lib/Web/App/MVC.rakumod",
+    "Web::App::MVC::Controller": "lib/Web/App/MVC/Controller.rakumod",
+    "Web::App::MVC::Controller::MethodDispatch": "lib/Web/App/MVC/Controller/MethodDispatch.rakumod"
   },
-  "source-url"    : "git://github.com/raku-community-modules/Web-App-MVC.git"
+  "resources": [
+  ],
+  "source-url": "git://github.com/raku-community-modules/Web-App-MVC.git",
+  "tags": [
+  ],
+  "test-depends": [
+  ],
+  "version": "1.0"
 }

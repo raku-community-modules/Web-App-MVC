@@ -1,5 +1,3 @@
-use v6;
-
 use lib <test lib>;
 
 use Web::App::MVC;
@@ -13,3 +11,4 @@ $app.add(:handler(Test1::Controllers::Dispatch));
 
 $app.run;
 
+# vim: expandtab shiftwidth=4

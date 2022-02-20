@@ -1,4 +1,6 @@
 Revision history for Web::App::MVC
 
 {{$NEXT}}
+
+0.0.1  2022-02-20T12:30:31+01:00
     - First version in zef ecosystem

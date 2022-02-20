@@ -4,7 +4,7 @@
   "build-depends": [
   ],
   "depends": [
-    "Web",
+    "Web::App",
     "SCGI",
     "HTTP::Easy",
     "Web::Template",
@@ -27,5 +27,5 @@
   ],
   "test-depends": [
   ],
-  "version": "0.0.1"
+  "version": "0.0.2"
 }

@@ -1,5 +1,3 @@
-[![Actions Status](https://github.com/raku-community-modules/Web-App-MVC/workflows/test/badge.svg)](https://github.com/raku-community-modules/Web-App-MVC/actions)
-
 ## Introduction
 
 A set of extensions to [Web::App](https://github.com/supernovus/perl6-web/) 
